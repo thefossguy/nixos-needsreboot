@@ -1,0 +1,14 @@
+[package]
+name = "nixos-reedsreboot"
+version = "0.1.0"
+edition = "2021"
+description = "Determine if you need to reboot your NixOS machine"
+license = "GPL-2.0"
+repository = "https://github.com/thefossguy/nixos-reedsreboot"
+readme = "README.md"
+keywords = [ "nixos" ]
+categories = [ "command-line-utilities" ]
+
+[dependencies]
+strum = "0.26"
+strum_macros = "0.26"
