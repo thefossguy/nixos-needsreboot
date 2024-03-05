@@ -34,10 +34,10 @@
       packages = forEachSupportedSystem ({ pkgs, ... }: {
         default = pkgs.rustPlatform.buildRustPackage {
           pname = "nixos-needsreboot";
-          version = "0.1.0";
+          version = "0.1.1";
           src = ./.;
 
-          cargoHash = "sha256-5b8db/Jy17u+olpJy4aeR7BO7m01yxzg++ar2u5gYk0=";
+          cargoHash = "sha256-bBeBpsV7J9U/wP7+JFQ78hQR2ptV8OC4/aHNyked9oQ=";
         };
       });
     };

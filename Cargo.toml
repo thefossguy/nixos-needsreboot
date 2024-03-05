@@ -1,6 +1,6 @@
 [package]
 name = "nixos-reedsreboot"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "Determine if you need to reboot your NixOS machine"
 license = "GPL-2.0"

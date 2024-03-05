@@ -20,16 +20,6 @@ impl fmt::Display for ModuleType {
     }
 }
 
-// for getting the "suffix"
-impl fmt::Debug for ModuleType {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match self {
-            Self::LinuxKernel => write!(f, "/kernel"),
-            Self::Systemd => write!(f, "/system"),
-        }
-    }
-}
-
 impl ModuleType {
     fn get_nix_store_path(&self, use_old_path: bool) -> Result<String, Box<dyn Error>> {
         let suffix = match self {
