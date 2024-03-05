@@ -7,6 +7,15 @@ pub static OLD_SYSTEM_PATH: &str = "/run/booted-system";
 pub static NEW_SYSTEM_PATH: &str = "/nix/var/nix/profiles/system";
 
 fn main() -> Result<(), Box<dyn Error>> {
+    let user = std::env::var_os("USER")
+        .unwrap()
+        .into_string()
+        .expect("Cannot convert OsString into String");
+    if user != "root" {
+        println!("ERROR: please run this as root.");
+        std::process::exit(1);
+    }
+
     if std::path::Path::new("/nix/var/nix/profiles/system").exists() {
         let old_system_id = fs::read_to_string(OLD_SYSTEM_PATH.to_string() + "/nixos-version")?;
         let new_system_id = fs::read_to_string(NEW_SYSTEM_PATH.to_string() + "/nixos-version")?;
