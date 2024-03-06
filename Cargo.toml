@@ -1,5 +1,5 @@
 [package]
-name = "nixos-reedsreboot"
+name = "nixos-needsreboot"
 version = "0.1.3"
 edition = "2021"
 description = "Determine if you need to reboot your NixOS machine"

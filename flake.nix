@@ -37,7 +37,7 @@
           version = "0.1.3";
           src = ./.;
 
-          cargoHash = "sha256-YLXyzm5DTMNR3fMPSWvuy/gnTY3sHBzuBPwUMPiBzJY=";
+          cargoHash = "sha256-ztPBFKtr7zyg6E3GOAi10GrlAjJajR4DQwZZBMxZfEM=";
         };
       });
     };
