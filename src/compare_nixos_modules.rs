@@ -105,8 +105,8 @@ impl ModuleType {
     }
 }
 
-pub fn upgrades_available() -> Result<bool, Box<dyn Error>> {
-    let mut needs_reboot = false;
+pub fn upgrades_available() -> Result<String, Box<dyn Error>> {
+    let mut reason = String::new();
     'x: for module in ModuleType::iter() {
         let (mut old_module_version, mut new_module_version) = module.get_version()?;
 
@@ -130,13 +130,12 @@ pub fn upgrades_available() -> Result<bool, Box<dyn Error>> {
 
             for (old, new) in old_version.iter().zip(new_version.iter()) {
                 if new > old {
-                    eprintln!("DEBUG: needs upgrading for module '{module}'");
-                    needs_reboot = true;
+                    reason = format!("{module} ({old_module_version} -> {new_module_version})\n");
                     break 'x;
                 }
             }
         }
     }
 
-    Ok(needs_reboot)
+    Ok(reason)
 }
