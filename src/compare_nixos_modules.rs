@@ -90,9 +90,10 @@ impl ModuleType {
 
         match self {
             Self::LinuxKernel => {
-                let linux_path = old_module_root_path + "/lib/modules";
-                old_module_version = Self::get_linux_version(&linux_path)?;
-                new_module_version = Self::get_linux_version(&linux_path)?;
+                let old_linux_path = old_module_root_path + "/lib/modules";
+                let new_linux_path = new_module_root_path + "/lib/modules";
+                old_module_version = Self::get_linux_version(&old_linux_path)?;
+                new_module_version = Self::get_linux_version(&new_linux_path)?;
             }
             Self::Systemd => {
                 old_module_version = Self::get_systemd_version(&old_module_root_path)?;
