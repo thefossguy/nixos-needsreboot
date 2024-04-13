@@ -6,8 +6,8 @@ use std::path::Path;
 
 mod compare_nixos_modules;
 
-pub static NEW_SYSTEM_PATH: &str = "/run/booted-system";
-pub static OLD_SYSTEM_PATH: &str = "/nix/var/nix/profiles/system";
+pub static OLD_SYSTEM_PATH: &str = "/run/booted-system";
+pub static NEW_SYSTEM_PATH: &str = "/nix/var/nix/profiles/system";
 pub static NIXOS_NEEDS_REBOOT: &str = "/var/run/reboot-required";
 
 fn main() -> Result<(), Box<dyn Error>> {
