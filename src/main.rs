@@ -1,3 +1,4 @@
+use std::env;
 use std::error::Error;
 use std::fs;
 use std::io::{self, Write};
@@ -10,12 +11,16 @@ pub static OLD_SYSTEM_PATH: &str = "/nix/var/nix/profiles/system";
 pub static NIXOS_NEEDS_REBOOT: &str = "/var/run/reboot-required";
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let user = std::env::var_os("USER")
+    let env_args: Vec<String> = env::args().collect();
+    let dry_run = env_args.contains(&String::from("--dry-run"));
+
+    let user = env::var_os("USER")
         .unwrap()
         .into_string()
         .expect("Cannot convert OsString into String");
-    if user != "root" {
-        println!("ERROR: please run this as root.");
+    if user != "root" && !dry_run {
+        println!("ERROR: please run this as root");
+        println!("HINT: use the '--dry-run' option");
         std::process::exit(1);
     }
 
@@ -35,7 +40,11 @@ fn main() -> Result<(), Box<dyn Error>> {
             if reason.is_empty() {
                 eprintln!("DEBUG: no updates available, moar uptime!!!");
             } else {
-                fs::write(NIXOS_NEEDS_REBOOT, reason)?;
+                if dry_run {
+                    println!("{reason}");
+                } else {
+                    fs::write(NIXOS_NEEDS_REBOOT, reason)?;
+                }
             }
         }
     } else {
