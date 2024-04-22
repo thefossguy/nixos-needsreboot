@@ -1,6 +1,6 @@
 [package]
 name = "nixos-needsreboot"
-version = "0.1.8"
+version = "0.1.10"
 edition = "2021"
 description = "Determine if you need to reboot your NixOS machine"
 license = "GPL-2.0"
