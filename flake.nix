@@ -36,8 +36,7 @@
           pname = "nixos-needsreboot";
           version = "0.1.10";
           src = ./.;
-
-          cargoHash = "sha256-LzO1kkrpWTjLnqs0HH5AIFLOZxtg0kUDIqXCVKSqsAc=";
+          cargoLock.lockFile = ./Cargo.lock;
         };
       });
     };
