@@ -53,7 +53,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             }
         }
     } else {
-        eprintln!("This binary is intedned to run only on NixOS.");
+        eprintln!("This binary is intended to run only on NixOS.");
         std::process::exit(1);
     }
 
