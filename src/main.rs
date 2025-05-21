@@ -38,6 +38,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             let mut handle = stdout.lock();
             let _ = handle.write_all(&fs::read(NIXOS_NEEDS_REBOOT)?);
             let _ = handle.flush();
+            std::process::exit(2);
         } else if old_system_id == new_system_id {
             eprintln!("DEBUG: you are using the latest NixOS generation, no need to reboot");
         } else {
@@ -50,6 +51,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 } else {
                     fs::write(NIXOS_NEEDS_REBOOT, reason)?;
                 }
+                std::process::exit(2);
             }
         }
     } else {
