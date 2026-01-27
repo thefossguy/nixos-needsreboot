@@ -26,10 +26,10 @@
           nixos-needsreboot = pkgs.writeShellApplication {
             name = "nixos-needsreboot";
 
-            runtimeInputs = with pkgs; [ coreutils gnused ];
+            runtimeInputs = with pkgs; [ coreutils findutils ];
 
             text = ''
-              VERSION="0.3.0"
+              VERSION="0.2.0"
               OLD_SYSTEM_PATH="/run/booted-system"
               NEW_SYSTEM_PATH="/nix/var/nix/profiles/system"
               NIXOS_NEEDS_REBOOT="/var/run/reboot-required"
@@ -62,18 +62,20 @@
                 local kernel_path="$1"
                 local modules_dir="''${kernel_path}/lib/modules"
                 if [[ -d "$modules_dir" ]]; then
-                  ls "$modules_dir" | head -1
+                  find "$modules_dir" -maxdepth 1 -mindepth 1 -type d -printf '%f\n' | head -1
                 fi
               }
 
               get_systemd_version() {
                 local systemd_path="$1"
-                basename "$systemd_path" | sed 's/^[^-]*-systemd-//'
+                local base
+                base=$(basename "$systemd_path")
+                echo "''${base#*-systemd-}"
               }
 
               normalize_version() {
                 local ver="$1"
-                echo "$ver" | sed 's/-rc/./'
+                echo "''${ver//-rc/.}"
               }
 
               is_upgrade() {
