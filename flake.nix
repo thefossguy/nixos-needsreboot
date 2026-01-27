@@ -29,7 +29,7 @@
             runtimeInputs = with pkgs; [ coreutils findutils ];
 
             text = ''
-              VERSION="0.2.0"
+              VERSION="0.3.0"
               OLD_SYSTEM_PATH="/run/booted-system"
               NEW_SYSTEM_PATH="/nix/var/nix/profiles/system"
               NIXOS_NEEDS_REBOOT="/var/run/reboot-required"
