@@ -28,7 +28,7 @@ nixos-needsreboot --version
 Add to your `flake.nix`:
 ```nix
 {
-  inputs.nixos-needsreboot.url = "github:YOURUSER/nixos-needsreboot";
+  inputs.nixos-needsreboot.url = "github:harryprayiv/nixos-needsreboot";
 
   outputs = { self, nixpkgs, nixos-needsreboot, ... }: {
     nixosConfigurations.myhost = nixpkgs.lib.nixosSystem {
