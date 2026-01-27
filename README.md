@@ -2,7 +2,7 @@
 
 Checks if you should reboot your NixOS machine after an upgrade brought in new goodies. :)
 
-This is a pure Nix/bash implementation - no Rust toolchain required.
+This is a pure Nix/bash implementation - no Rust toolchain required, no additional dependencies.
 
 ## What it does
 
