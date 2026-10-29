@@ -23,12 +23,8 @@ impl fmt::Display for ModuleType {
 impl ModuleType {
     fn get_nix_store_path(&self, use_old_path: bool) -> Result<String, Box<dyn Error>> {
         let suffix = match self {
-            Self::LinuxKernel => "/kernel",
+            Self::LinuxKernel => "/kernel-modules",
             Self::Systemd => "/systemd",
-        };
-        let strip_suffix = match self {
-            Self::Systemd => false,
-            Self::LinuxKernel => true,
         };
 
         let system_path = if use_old_path {
@@ -37,24 +33,29 @@ impl ModuleType {
             NEW_SYSTEM_PATH.to_string()
         };
 
-        let tmp_module_path = fs::read_link(system_path + suffix)?
-            .into_os_string()
-            .into_string()
-            .expect("Cannot convert PathBuf to String");
-
-        let nix_module_path = if strip_suffix {
-            let split_module_path = tmp_module_path.split('/').collect::<Vec<&str>>();
-            let mut module_dir = split_module_path
-                .get(1..4)
-                .ok_or("Cannot find the module's directory in /nix/store")?
-                .join("/");
-            module_dir.insert(0, '/');
-            module_dir
-        } else {
-            tmp_module_path
-        };
-
-        Ok(nix_module_path)
+        match fs::read_link(system_path.clone() + suffix) {
+            Ok(path) => Ok(path
+                .into_os_string()
+                .into_string()
+                .expect("Cannot convert PathBuf to String")),
+            Err(_) if matches!(self, Self::LinuxKernel) => {
+                // Older generations predate the kernel/modules split so
+                // use the kernel derivation root.
+                let kernel_link = fs::read_link(system_path + "/kernel")?
+                    .into_os_string()
+                    .into_string()
+                    .expect("Cannot convert PathBuf to String");
+                let mut module_dir = kernel_link
+                    .split('/')
+                    .collect::<Vec<&str>>()
+                    .get(1..4)
+                    .ok_or("Cannot find the module's directory in /nix/store")?
+                    .join("/");
+                module_dir.insert(0, '/');
+                Ok(module_dir)
+            }
+            Err(err) => Err(err.into()),
+        }
     }
 
     fn get_linux_version(linux_path: &str) -> Result<String, Box<dyn Error>> {
